@@ -1,0 +1,84 @@
+---
+title: "RISEN — Role, Input, Steps, Expectation, Narrowing"
+acronym: "RISEN"
+category: "General Purpose"
+difficulty: "Template"
+version: "1.0"
+---
+
+# RISEN — Template
+
+A clean, reusable prompt framework for structured, explainable tasks.  
+Fill in the YAML variables and insert your data to generate a deterministic, low-hallucination prompt.
+
+---
+
+## 🧾 Variables (YAML)
+
+```yaml
+role: ""
+audience: ""
+tone: ""
+format: ""
+domain_scope: ""
+sources: ""
+output_schema_json: |
+  {
+    "type": "object",
+    "properties": {},
+    "required": []
+  }
+data_block: |
+  [Insert data or text to analyze here...]
+
+
+<prompt>
+  <!-- R: ROLE -->
+  <role>
+    You are a {{role}} communicating with {{audience}} using a {{tone}} tone.
+  </role>
+
+  <!-- I: INPUT -->
+  <input>
+    <description>Use only the following data sources.</description>
+    <sources>{{sources}}</sources>
+    <data>
+      <![CDATA[
+      {{data_block}}
+      ]]>
+    </data>
+  </input>
+
+  <!-- S: STEPS -->
+  <steps>
+    1. Read and interpret <input>.
+    2. Extract key insights or patterns.
+    3. Produce an output according to <expectation>.
+    4. Verify that your response follows <narrowing>.
+  </steps>
+
+  <!-- E: EXPECTATION -->
+  <expectation>
+    <output_format>{{format}}</output_format>
+    <criteria>
+      - Must be factual and specific.
+      - Must follow the requested format.
+      - Avoid filler or generic content.
+    </criteria>
+    <schema><![CDATA[{{output_schema_json}}]]></schema>
+  </expectation>
+
+  <!-- N: NARROWING -->
+  <narrowing>
+    - Do not invent facts or speculate beyond <input>.
+    - Stay within {{domain_scope}} only.
+    - If uncertain, reply: "I don't have enough information."
+  </narrowing>
+
+  <!-- Optional Reflection Step -->
+  <reflection>
+    Review your output against <expectation>.  
+    If it fails, revise once automatically.
+  </reflection>
+</prompt>
+
