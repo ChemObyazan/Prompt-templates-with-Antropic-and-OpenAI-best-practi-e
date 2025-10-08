@@ -1,0 +1,94 @@
+---
+title: "TRACE — Task, Request, Action, Context, Example"
+acronym: "TRACE"
+category: "General Purpose"
+difficulty: "Template"
+version: "1.0"
+---
+
+# TRACE — Template
+
+A clear, adaptable prompt framework designed for tasks that require **context, specific actions, and example-guided output**.  
+Fill in the YAML variables and render the XML to generate a focused, example-driven prompt.
+
+---
+
+## 🧾 Variables (YAML)
+
+```yaml
+task: ""
+request: ""
+action: ""
+context: ""
+example_input: ""
+example_output: ""
+format: ""
+domain_scope: ""
+sources: ""
+output_schema_json: |
+  {
+    "type": "object",
+    "properties": {},
+    "required": []
+  }
+data_block: |
+  [Insert data or text to process here...]
+
+
+<prompt>
+  <!-- T: TASK -->
+  <task>
+    {{task}}
+  </task>
+
+  <!-- R: REQUEST -->
+  <request>
+    {{request}}
+  </request>
+
+  <!-- A: ACTION -->
+  <action>
+    {{action}}
+  </action>
+
+  <!-- C: CONTEXT -->
+  <context>
+    <description>Use this context and data only:</description>
+    <sources>{{sources}}</sources>
+    <details>
+      <![CDATA[
+      {{context}}
+      ]]>
+    </details>
+    <data>
+      <![CDATA[
+      {{data_block}}
+      ]]>
+    </data>
+  </context>
+
+  <!-- E: EXAMPLE -->
+  <example>
+    <example_input><![CDATA[{{example_input}}]]></example_input>
+    <example_output><![CDATA[{{example_output}}]]></example_output>
+  </example>
+
+  <!-- EXPECTATION / OUTPUT FORMAT -->
+  <expectation>
+    <output_format>{{format}}</output_format>
+    <schema><![CDATA[{{output_schema_json}}]]></schema>
+  </expectation>
+
+  <!-- NARROWING / SAFETY RULES -->
+  <narrowing>
+    - Stay within {{domain_scope}} only.
+    - Base all reasoning on <context> and <example>.
+    - Do not fabricate information or extrapolate beyond provided data.
+  </narrowing>
+
+  <!-- REFLECTION (optional) -->
+  <reflection>
+    Review your output.  
+    Ensure it aligns with <expectation> and follows <example> structure.
+  </reflection>
+</prompt>
