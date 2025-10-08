@@ -1,0 +1,103 @@
+---
+title: "PROMPT — Purpose, Role, Output, Mechanics, Parameters, Testing"
+acronym: "PROMPT"
+category: "General Purpose"
+difficulty: "Template"
+version: "1.0"
+---
+
+# PROMPT — Template
+
+A comprehensive prompt framework designed for **controlled, goal-driven prompt creation**.  
+It’s ideal for engineering complex instructions with a clear purpose, well-defined mechanics, and verifiable outputs.
+
+---
+
+## 🧾 Variables (YAML)
+
+```yaml
+purpose: ""
+role: ""
+output_format: ""
+mechanics: ""
+parameters: ""
+testing_criteria: ""
+domain_scope: ""
+sources: ""
+output_schema_json: |
+  {
+    "type": "object",
+    "properties": {},
+    "required": []
+  }
+data_block: |
+  [Insert task-specific data or input text here...]
+
+
+
+<prompt>
+  <!-- P: PURPOSE -->
+  <purpose>
+    {{purpose}}
+  </purpose>
+
+  <!-- R: ROLE -->
+  <role>
+    You are acting as {{role}}.  
+    Maintain consistency with your role throughout execution.
+  </role>
+
+  <!-- O: OUTPUT -->
+  <output>
+    <description>Expected format and structure:</description>
+    <output_format>{{output_format}}</output_format>
+    <schema><![CDATA[{{output_schema_json}}]]></schema>
+  </output>
+
+  <!-- M: MECHANICS -->
+  <mechanics>
+    <description>Define the process or steps to achieve the goal.</description>
+    <![CDATA[
+    {{mechanics}}
+    ]]>
+  </mechanics>
+
+  <!-- P: PARAMETERS -->
+  <parameters>
+    <description>Constraints, rules, or configuration values for this task.</description>
+    <![CDATA[
+    {{parameters}}
+    ]]>
+  </parameters>
+
+  <!-- T: TESTING -->
+  <testing>
+    <description>Quality assurance or evaluation process.</description>
+    <![CDATA[
+    {{testing_criteria}}
+    ]]>
+  </testing>
+
+  <!-- CONTEXT -->
+  <context>
+    <sources>{{sources}}</sources>
+    <data>
+      <![CDATA[
+      {{data_block}}
+      ]]>
+    </data>
+  </context>
+
+  <!-- SAFETY / NARROWING -->
+  <narrowing>
+    - Stay within {{domain_scope}} context only.  
+    - Do not include speculative or unverifiable information.  
+    - If information is missing, clearly state uncertainty.
+  </narrowing>
+
+  <!-- REFLECTION (optional) -->
+  <reflection>
+    Review your final output against <testing> and <output>.  
+    If any requirement is unmet, correct once automatically.
+  </reflection>
+</prompt>
